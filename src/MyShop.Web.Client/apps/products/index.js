@@ -8,7 +8,23 @@ import ApplicationReducer from './store';
 import { Router } from './router';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-let store = createStore(ApplicationReducer, composeEnhancers(applyMiddleware(thunk)));
+const root = document.getElementById('products-app-root');
+const user = {
+    name: window.user.name, // root.getAttribute('data-user-name'),
+    login: window.user.login, // root.getAttribute('data-user-login'),
+};
+console.log(user);
+
+let store = createStore(
+    ApplicationReducer,
+    {
+        User: {
+            name: user.name,
+            login: user.login,
+        },
+    },
+    composeEnhancers(applyMiddleware(thunk)),
+);
 
 ReactDOM.render(
     <BrowserRouter basename="products">
@@ -16,5 +32,5 @@ ReactDOM.render(
             <Router />
         </Provider>
     </BrowserRouter>,
-    document.getElementById('products-app-root'),
+    root,
 );
